@@ -1,7 +1,7 @@
 const listProjects = [
   {
     name: "Bateria",
-    path: "projeto1_BateriaJs/",
+    path: "projeto1_BateriaJS/",
     screen: "projeto1.PNG"
   },
   {
