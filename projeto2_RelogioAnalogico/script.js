@@ -10,7 +10,7 @@ function updateClock() {
   let second = now.getSeconds();
 
   // set relogio digital
-  digitalElement.innerHTML = `${hour}:${minute}:${fixZero(second)}`;
+  digitalElement.innerHTML = `${fixZero(hour)}:${fixZero(minute)}:${fixZero(second)}`;
 
   // set relógio analógico
   let sDeg = ((360 / 60) * second) - 90;
@@ -20,7 +20,6 @@ function updateClock() {
   sElement.style.transform = `rotate(${sDeg}deg)`;
   mElement.style.transform = `rotate(${mDeg}deg)`;
   hElement.style.transform = `rotate(${hDeg}deg)`;
-
 
 }
 
