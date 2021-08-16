@@ -1,3 +1,8 @@
+window.addEventListener("load", function(event) {
+    initEventsMobile();
+    initEventsDesktop();
+});
+
 // Initial Data
 let currentColor = 'black';
 let canDraw = false;
@@ -7,14 +12,32 @@ let mouseY = 0;
 let screen = document.querySelector("#tela");
 let ctx = screen.getContext('2d');
 
+function isMobile() {
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 // Events
 document.querySelectorAll('.colorArea .color').forEach(item =>{
   item.addEventListener('click', colorClickEvent)
 });
 
-screen.addEventListener('mousedown', mouseDownEvent);
-screen.addEventListener('mousemove', mouseMoveEvent);
-screen.addEventListener('mouseup', mouseUpEvent);
+function initEventsDesktop(){
+  // Desktop
+  screen.addEventListener('mousedown', mouseDownEvent);
+  screen.addEventListener('mousemove', mouseMoveEvent);
+  screen.addEventListener('mouseup', mouseUpEvent);
+}
+
+function initEventsMobile(){
+  // Mobile
+  screen.addEventListener('touchstart', touchStartEvent);
+  screen.addEventListener('touchend', touchEndEvent);
+  screen.addEventListener('touchmove', touchMoveEvent);
+}
 
 document.querySelector('.clear').addEventListener('click', clearScreen);
 
@@ -27,6 +50,7 @@ function colorClickEvent(event){
   event.target.classList.add('active');
 }
 
+// Desktop
 function mouseDownEvent(event){
   canDraw = true;
   mouseX = event.pageX - screen.offsetLeft;
@@ -43,6 +67,24 @@ function mouseMoveEvent(event){
   }
 }
 
+// Mobile
+function touchStartEvent(event){
+  canDraw = true;
+  mouseX = event.touches[0].pageX - screen.offsetLeft;
+  mouseY = event.touches[0].pageY - screen.offsetTop;
+}
+
+function touchEndEvent(event){
+  canDraw = false;
+}
+
+function touchMoveEvent(event){
+  if(canDraw){
+    draw(event.touches[0].pageX,  event.touches[0].pageY);
+  }
+}
+
+// Draw in Canvas
 function draw(x, y){
   let pointX = x - screen.offsetLeft;
   let pointY = y - screen.offsetTop;
